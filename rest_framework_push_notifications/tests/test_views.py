@@ -22,6 +22,17 @@ class TestCreateAPNSDevice(APIRequestTestCase):
         self.assertEqual(device.registration_id, registration_id)
         self.assertEqual(device.user, request.user)
 
+    def test_duplicate(self):
+        registration_id = 'test_id'
+        APNSDevice.objects.create(registration_id='test_id')
+        data = {'registration_id': registration_id}
+
+        request = self.create_request('post', data=data)
+        view = self.get_view()
+        response = view(request)
+
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
 
 class TestDeleteAPNSDevice(APIRequestTestCase):
     view = views.DeleteAPNSDevice
