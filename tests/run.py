@@ -21,6 +21,8 @@ settings.configure(
         ),
     },
     INSTALLED_APPS=(
+        'push_notifications',
+
         # Put contenttypes before auth to work around test issue.
         # See: https://code.djangoproject.com/ticket/10827#comment:12
         'django.contrib.contenttypes',
