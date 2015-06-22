@@ -6,8 +6,30 @@ from tests.utils import APIRequestTestCase
 from .. import views
 
 
-class TestCreateAPNSDevice(APIRequestTestCase):
-    view = views.CreateAPNSDevice
+class TestAPNSDeviceList(APIRequestTestCase):
+    view = views.APNSDeviceList
+
+    def test_get(self):
+        user = self.user_factory.create()
+        registration_id = 'test_id'
+        APNSDevice.objects.create(registration_id=registration_id, user=user)
+
+        request = self.create_request('get', user=user)
+        view = self.get_view()
+        response = view(request)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        self.assertEqual(len(response.data), 1)
+
+    def test_get_other_user(self):
+        other_user = self.user_factory.create()
+        APNSDevice.objects.create(registration_id='test_id', user=other_user)
+
+        request = self.create_request('get')
+        view = self.get_view()
+        response = view(request)
+
+        self.assertEqual(response.data, [])
 
     def test_post(self):
         registration_id = 'test_id'

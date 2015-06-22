@@ -6,8 +6,8 @@ from . import views
 urlpatterns = [
     url(
         r'^apns-device/$',
-        views.CreateAPNSDevice.as_view(),
-        name='apnsdevice-create',
+        views.APNSDeviceList.as_view(),
+        name='apnsdevice-list',
     ),
     url(
         r'^apns-device/(?P<pk>\d+)/$',
