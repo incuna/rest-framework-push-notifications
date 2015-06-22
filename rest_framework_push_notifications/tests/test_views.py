@@ -75,6 +75,20 @@ class TestAPNSDeviceDetail(APIRequestTestCase):
         self.assertEqual(response.data['url'], url)
         self.assertEqual(response.data['registration_id'], registration_id)
 
+    def test_put(self):
+        user = self.user_factory.create()
+        device = APNSDevice.objects.create(registration_id='test_id', user=user)
+        name = 'My device'
+
+        request = self.create_request('put', user=user, data={'name': name})
+        view = self.get_view()
+        response = view(request, pk=device.pk)
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK, response.data)
+
+        device.refresh_from_db()
+        self.assertEqual(device.name, name)
+
     def test_delete(self):
         user = self.user_factory.create()
         device = APNSDevice.objects.create(registration_id='test_id', user=user)

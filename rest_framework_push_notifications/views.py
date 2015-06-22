@@ -1,5 +1,5 @@
 from push_notifications import models
-from rest_framework.generics import ListCreateAPIView, RetrieveDestroyAPIView
+from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
 
 from . import serializers
 
@@ -14,8 +14,8 @@ class APNSDeviceList(ListCreateAPIView):
         serializer.save(user=self.request.user)
 
 
-class APNSDeviceDetail(RetrieveDestroyAPIView):
-    serializer_class = serializers.APNSDevice
+class APNSDeviceDetail(RetrieveUpdateDestroyAPIView):
+    serializer_class = serializers.APNSDeviceUpdate
 
     def get_queryset(self):
         return models.APNSDevice.objects.filter(user=self.request.user)
