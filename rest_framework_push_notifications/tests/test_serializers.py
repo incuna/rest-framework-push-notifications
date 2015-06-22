@@ -16,3 +16,4 @@ class TestAPNSDeviceSerializer(TestCase):
     def test_registration_id_required(self):
         serializer = serializers.APNSDevice(data={})
         self.assertFalse(serializer.is_valid())
+        self.assertIn('registration_id', serializer.errors)
