@@ -8,6 +8,9 @@ help:
 	@echo " make test       -- runs tests"
 
 test:
+	@make test-travis
+	@flake8 .
+
+test-travis:
 	python -Wmodule -m coverage run tests/run.py -v$(verbosity)
 	coverage report -m --fail-under 100
-	@flake8 .
