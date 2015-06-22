@@ -5,7 +5,7 @@ from .. import serializers
 
 class TestAPNSDeviceSerializer(TestCase):
     def test_fields(self):
-        expected = {'name', 'device_id', 'registration_id', 'active'}
+        expected = {'url', 'name', 'device_id', 'registration_id', 'active'}
         fields = serializers.APNSDevice().fields.keys()
         self.assertEqual(expected, set(fields))
 

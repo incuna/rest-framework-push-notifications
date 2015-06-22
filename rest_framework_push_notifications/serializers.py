@@ -1,8 +1,8 @@
 from push_notifications import models
-from rest_framework.serializers import ModelSerializer
+from rest_framework.serializers import HyperlinkedModelSerializer
 
 
-class APNSDevice(ModelSerializer):
+class APNSDevice(HyperlinkedModelSerializer):
     class Meta:
-        fields = ('registration_id', 'name', 'device_id', 'active')
+        fields = ('url', 'registration_id', 'name', 'device_id', 'active')
         model = models.APNSDevice

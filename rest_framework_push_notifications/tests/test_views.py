@@ -1,5 +1,6 @@
 from push_notifications.models import APNSDevice
 from rest_framework import status
+from rest_framework.reverse import reverse
 
 from tests.utils import APIRequestTestCase
 from .. import views
@@ -34,8 +35,23 @@ class TestCreateAPNSDevice(APIRequestTestCase):
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
 
-class TestDeleteAPNSDevice(APIRequestTestCase):
-    view = views.DeleteAPNSDevice
+class TestAPNSDeviceDetail(APIRequestTestCase):
+    view = views.APNSDeviceDetail
+
+    def test_get(self):
+        user = self.user_factory.create()
+        registration_id = 'test_id'
+        device = APNSDevice.objects.create(registration_id=registration_id, user=user)
+
+        request = self.create_request('get', user=user)
+        view = self.get_view()
+        response = view(request, pk=device.pk)
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        url = reverse('apnsdevice-detail', kwargs={'pk': device.pk}, request=request)
+        self.assertEqual(response.data['url'], url)
+        self.assertEqual(response.data['registration_id'], registration_id)
 
     def test_delete(self):
         user = self.user_factory.create()
