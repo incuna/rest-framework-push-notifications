@@ -5,7 +5,11 @@ verbosity = 1
 help:
 	@echo "Usage:"
 	@echo " make help       -- displays this help"
+	@echo " make release    -- release to pypi"
 	@echo " make test       -- runs tests"
+
+release:
+	python setup.py register sdist bdist_wheel upload
 
 test:
 	@make test-travis
