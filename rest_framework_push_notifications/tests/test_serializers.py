@@ -1,5 +1,7 @@
 from django.test import TestCase
+from hypothesis import given
 
+from .strategies import APNSDeviceData
 from .. import serializers
 
 
@@ -17,3 +19,8 @@ class TestAPNSDeviceSerializer(TestCase):
         serializer = serializers.APNSDevice(data={})
         self.assertFalse(serializer.is_valid())
         self.assertIn('registration_id', serializer.errors)
+
+    @given(APNSDeviceData)
+    def test_validation(self, data):
+        serializer = serializers.APNSDevice(data=data)
+        self.assertTrue(serializer.is_valid(), serializer.errors)
